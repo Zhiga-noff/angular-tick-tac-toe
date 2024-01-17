@@ -1,0 +1,14 @@
+<div class="flexo">
+  <div class="result">
+    <p *ngIf="!isWin">Ваш ход</p>
+    <p *ngIf="isWin">Игра окончена</p>
+    <app-type-field-run [type-field]="typeField"/>
+  </div>
+  <div class="reset">Reset</div>
+</div>
+
+<div class="app">
+  <app-cell-field *ngFor="let field of arrClickResult; let index = index"
+                  [field]="field" [arrClickResult]="arrClickResult"
+                  [index]="index" [typeField]="typeField"/>
+</div>
