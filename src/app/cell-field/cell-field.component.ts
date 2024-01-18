@@ -1,52 +1,40 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-cell-field',
   templateUrl: './cell-field.component.html',
-  styleUrls: ['./cell-field.component.css']
+  styleUrls: ['./cell-field.component.css'],
 })
 export class CellFieldComponent {
-  @Input() field!: string
-  @Input() index: number
-  @Input() arrClickResult: string[]
-  @Input() typeField: string
+  @Input() field!: string;
+  @Input() index: number;
+  @Input() arrClickResult: string[];
+  @Input() typeField: string;
 
-  @Output() redactArray: EventEmitter<any>
-  @Output() typeFieldChange: EventEmitter<any>
+  @Output() redactArrayAndType: EventEmitter<any> = new EventEmitter();
 
-  public classField = 'cell'
+  @Input() classField: string;
 
-  ngOnInit() {
-    this.setNewClassField()
-  }
+  ngOnInit() {}
 
   click() {
+    if (this.field !=='') {
+      return
+    }
 
     switch (this.typeField) {
       case 'circle':
         this.arrClickResult[this.index] = 'O';
-        this.typeField = 'chest'
-
-        // this.classField = `cell ${this.typeField}`
-        // this.arrClickResult[this.index] = 'O'
-        // this.typeField = 'chest'
-        break
+        this.typeField = 'chest';
+        this.redactArrayAndType.emit({ arr: this.arrClickResult, type: this.typeField });
+        break;
       case 'chest':
-        // this.classField = `cell ${this.typeField}`
-        // this.arrClickResult[this.index] = 'X'
-        // this.typeField = 'circle'
-        break
+        this.arrClickResult[this.index] = 'X';
+        this.typeField = 'circle';
+        this.redactArrayAndType.emit({ arr: this.arrClickResult, type: this.typeField });
+        break;
       default:
-        break
-    }
-  }
-
-  setNewClassField() {
-    if (this.typeField === 'circle' && this.field === 'O') {
-      this.classField = 'cell circle'
-    }
-    if (this.typeField === 'chest' && this.field === 'X') {
-      this.classField = 'cell chest'
+        break;
     }
   }
 }
