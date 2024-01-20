@@ -1,42 +1,47 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
+interface IField {
+  field: string,
+  style: 'cell' | 'cell circle' | 'cell chest'
+}
+
 @Component({
   selector: 'app-cell-field',
   templateUrl: './cell-field.component.html',
   styleUrls: ['./cell-field.component.css'],
 })
 export class CellFieldComponent {
-  @Input() field!: string;
+  @Input() field!: IField;
   @Input() index: number;
-  @Input() arrClickResult: string[];
+  @Input() arrClickResult: IField[];
   @Input() typeField: string;
   @Input() isWin: boolean
 
   @Output() redactArrayAndType: EventEmitter<any> = new EventEmitter();
 
-  @Input() classField: string;
+  public classField = 'cell'
 
-  ngOnInit() {
-  }
 
-  click() {
-    if (this.field !== '' || this.isWin) {
-      return
+  click(): void {
+    if (this.field.field !== '' || this.isWin) {
+      return;
     }
 
     switch (this.typeField) {
       case 'circle':
-        this.arrClickResult[this.index] = 'O';
+        this.arrClickResult[this.index] = {field: 'O', style: 'cell circle'};
         this.typeField = 'chest';
-        this.redactArrayAndType.emit({arr: this.arrClickResult, type: this.typeField});
         break;
       case 'chest':
-        this.arrClickResult[this.index] = 'X';
+        this.arrClickResult[this.index] = {field: 'X', style: 'cell chest'};
         this.typeField = 'circle';
-        this.redactArrayAndType.emit({arr: this.arrClickResult, type: this.typeField});
         break;
       default:
         break;
     }
+
+    this.redactArrayAndType.emit({arr: this.arrClickResult, type: this.typeField});
   }
+
+
 }

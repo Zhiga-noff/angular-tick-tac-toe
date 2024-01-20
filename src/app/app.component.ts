@@ -1,5 +1,11 @@
 import {Component} from '@angular/core';
 
+interface IField {
+  field: string,
+  style: 'cell' | 'cell circle' | 'cell chest'
+}
+
+
 export const resultForWin = [
   [0, 1, 2],
   [3, 4, 5],
@@ -17,27 +23,36 @@ export const resultForWin = [
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
-  public arrClickResult = ['', '', '', '', '', '', '', '', '',]
+  public constantArray: IField[] = [
+    {field: '', style: 'cell'},
+    {field: '', style: 'cell'},
+    {field: '', style: 'cell'},
+    {field: '', style: 'cell'},
+    {field: '', style: 'cell'},
+    {field: '', style: 'cell'},
+    {field: '', style: 'cell'},
+    {field: '', style: 'cell'},
+    {field: '', style: 'cell'},
+  ]
+  public arrClickResult: IField[] = [...this.constantArray]
   public reset = false
   public isWin = false
   public typeField = 'circle'
   public classField = 'cell';
 
-  setNewValueAll(event: { arr: string[], type: string }) {
+  setNewValueAll(event: { arr: IField[], type: string }) {
     if (this.isWin) {
       return
     }
 
     this.reset = false
-    this.classField = `cell ${this.typeField}`
     this.arrClickResult = event.arr
     this.typeField = event.type
     this.isWin = this.checkIsWin('O') || this.checkIsWin('X')
   }
 
   resetGame() {
-    this.arrClickResult = ['', '', '', '', '', '', '', '', '',]
+    this.arrClickResult = [...this.constantArray]
     this.typeField = 'circle'
     this.isWin = false
     this.reset = true
@@ -62,7 +77,7 @@ export class AppComponent {
 
   searchResult(type: string): number[] {
     const checkArray = []
-    this.arrClickResult.forEach((field, index) => {
+    this.arrClickResult.forEach(({field}, index) => {
       if (field === type) {
         checkArray.push(index)
       }
