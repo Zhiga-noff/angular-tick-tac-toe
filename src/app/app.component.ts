@@ -24,11 +24,16 @@ export class AppComponent {
   public typeField = 'circle'
   public classField = 'cell';
 
-  setNewValueAll(event:{ arr:string[],type:string}) {
+  setNewValueAll(event: { arr: string[], type: string }) {
+    if (this.isWin) {
+      return
+    }
+
     this.reset = false
     this.classField = `cell ${this.typeField}`
     this.arrClickResult = event.arr
     this.typeField = event.type
+    this.isWin = this.checkIsWin('O') || this.checkIsWin('X')
   }
 
   resetGame() {
@@ -37,9 +42,31 @@ export class AppComponent {
     this.isWin = false
     this.reset = true
     this.classField = 'cell'
+
   }
 
-  checkIsWin() {
+  checkIsWin(type: string): boolean {
+    const check = this.searchResult(type)
+    return resultForWin.some((field) => {
+      let current = 0
+      check.forEach(item => {
+        for (let i = 0; i < field.length; i++) {
+          if (item === field[i]) {
+            current += 1
+          }
+        }
+      })
+      return current === 3
+    })
+  }
 
+  searchResult(type: string): number[] {
+    const checkArray = []
+    this.arrClickResult.forEach((field, index) => {
+      if (field === type) {
+        checkArray.push(index)
+      }
+    })
+    return checkArray
   }
 }

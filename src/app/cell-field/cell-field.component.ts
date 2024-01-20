@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-cell-field',
@@ -10,15 +10,17 @@ export class CellFieldComponent {
   @Input() index: number;
   @Input() arrClickResult: string[];
   @Input() typeField: string;
+  @Input() isWin: boolean
 
   @Output() redactArrayAndType: EventEmitter<any> = new EventEmitter();
 
   @Input() classField: string;
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   click() {
-    if (this.field !=='') {
+    if (this.field !== '' || this.isWin) {
       return
     }
 
@@ -26,12 +28,12 @@ export class CellFieldComponent {
       case 'circle':
         this.arrClickResult[this.index] = 'O';
         this.typeField = 'chest';
-        this.redactArrayAndType.emit({ arr: this.arrClickResult, type: this.typeField });
+        this.redactArrayAndType.emit({arr: this.arrClickResult, type: this.typeField});
         break;
       case 'chest':
         this.arrClickResult[this.index] = 'X';
         this.typeField = 'circle';
-        this.redactArrayAndType.emit({ arr: this.arrClickResult, type: this.typeField });
+        this.redactArrayAndType.emit({arr: this.arrClickResult, type: this.typeField});
         break;
       default:
         break;

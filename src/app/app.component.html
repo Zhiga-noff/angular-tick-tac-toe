@@ -2,7 +2,7 @@
   <div class="result">
     <p *ngIf="!isWin">Ваш ход</p>
     <p *ngIf="isWin">Игра окончена</p>
-    <app-type-field-run [type-field]="typeField" />
+    <app-type-field-run [type-field]="typeField"/>
   </div>
   <div class="reset" (click)="resetGame()">Reset</div>
 </div>
@@ -14,7 +14,8 @@
     [arrClickResult]="arrClickResult"
     [index]="index"
     [typeField]="typeField"
-    [classField] = classField
+    [classField]=classField
+    [isWin]="isWin"
     (redactArrayAndType)="setNewValueAll($event)"
   />
 </div>
